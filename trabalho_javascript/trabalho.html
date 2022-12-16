@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"> 
+        <title>Trabalho</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script>
+
+            let vetor = [];
+            let i;
+            function cadastrar()
+            {
+                let codValue = document.getElementById("codigo").value;
+                let nomeValue = document.getElementById("nome").value;
+                let capacidadeValue = document.getElementById("capacidade").value;
+                let exibirValue = document.getElementById("exibicao").value;
+                let acessivelValue = document.getElementById("acessivel").value;
+                if(codValue == "" || nomeValue == "" || capacidadeValue == "" || exibirValue == "" || acessivelValue == "")
+                {
+                    alert("Preencha todos os campos");
+                }
+                else
+                {
+                    let encontrado;
+                    encontrado = 0;
+                    for(i=0;i < vetor.length;i++)
+                    {
+                        if(vetor[i].cod == codValue)
+                        {
+                            encontrado = 1;
+                        }
+                    }
+                    if(encontrado)
+                    {
+                        alert("Esse código já está cadastrado, por favor insira outro!");
+                    }
+                    else
+                    {
+                        $("table").append("<tr><td>"+codValue+"<td>"+nomeValue+"<td>"+capacidadeValue+"<td>"+exibirValue+"<td>"+acessivelValue+"<tr>");
+                        vetor.push({cod: codValue, nome: nomeValue, capacidade: capacidadeValue, exibir: exibirValue, acessivel: acessivelValue});
+                        alert("Cadastro feito com sucesso");
+                    }      
+                }
+                
+                let stringVetor = JSON.stringify(vetor);
+                $(document).ready(function()
+                {
+                    $("#mostrarstring").click(function()
+                    {
+                        $("#mostrarstring1").html(stringVetor);
+                    });
+                });
+                localStorage.setItem("vetorsalas", stringVetor);
+                console.log(vetor);
+            }
+            function listartudo()
+            {
+                
+                let str1 = "";
+                for(i=0;i<vetor.length;i++)
+                {
+                    str1 += ("<br>" + "Código:"+ vetor[i].cod + "<br>" + "Nome:" + vetor[i].nome + "<br>" + "Capacidade:" + vetor[i].capacidade + "<br>" +"Exibir:" + vetor[i].exibir + "<br>" + "Acessível:" + vetor[i].acessivel + "<br>");
+                }
+                document.getElementById("mostrar1").innerHTML = str1;
+            }
+            function listarum()
+            {
+                let encontrar;
+                encontrar = 0;
+                let pesquisarValue = document.getElementById("pesquisar").value;
+                let str2 = "";
+                for(i=0;i<vetor.length;i++)
+                {
+                    if(pesquisarValue == vetor[i].cod)
+                    {
+                        str2 += ("<br>" + "Código:"+ vetor[i].cod + "<br>" + "Nome:" + vetor[i].nome + "<br>" + "Capacidade:" + vetor[i].capacidade + "<br>" +"Exibir:" + vetor[i].exibir + "<br>" + "Acessível:" + vetor[i].acessivel + "<br>");
+                        encontrar = 1;
+                    }
+                }
+                if(encontrar)
+                {
+                    document.getElementById("mostrar2").innerHTML = str2;
+                }
+                else
+                {
+                    alert("Esse código não foi encontrado!");
+                }
+            }
+            function alterar()
+            {
+                let alterar = document.getElementById("alterar1").value;
+                let codValue1 = document.getElementById("codigo1").value;
+                let nomeValue1 = document.getElementById("nome1").value;
+                let capacidadeValue1 = document.getElementById("capacidade1").value;
+                let exibirValue1 = document.getElementById("exibicao1").value;
+                let acessivelValue1 = document.getElementById("acessivel1").value;
+
+                for(i=0;i<vetor.length;i++)
+                {
+                    if(alterar == vetor[i].cod)
+                    {
+                        vetor[i].cod = codValue1;
+                        vetor[i].nome = nomeValue1;
+                        vetor[i].capacidade = capacidadeValue1;
+                        vetor[i].exibir = exibirValue1;
+                        vetor[i].acessivel = acessivelValue1;
+                        alert("O código foi alterado com sucesso");
+                    }
+                    else
+                    {
+                        alert("Esse código não foi encontrado");
+                    }
+                }
+            }
+            function excluir()
+            {
+                let alterar2 = document.getElementById("alterar2").value;
+                let select = document.getElementById("excluir_elemento").value;
+                for(i=0;i<vetor.length;i++)
+                {
+                    if(alterar2 == vetor[i].cod)
+                    {
+                        if(select == "nome")
+                        {
+                            vetor[i].nome = "";
+                            alert("O nome foi excluído com sucesso");
+                        }
+                        if(select == "capacidade")
+                        {
+                            vetor[i].capacidade = "";
+                            alert("A capacidade foi excluída com sucesso");
+                        }
+                        if(select == "exibir")
+                        {
+                            vetor[i].exibir = "";
+                            alert("O exibir foi excluído com sucesso");
+                        }
+                        if(select == "acessivel")
+                        {
+                            vetor[i].acessivel = "";
+                            alert("O acessível foi excluído com sucesso");
+                        }  
+                    }
+                    else
+                    {
+                        alert("Esse código não foi encontrado");
+                    }
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <form action="javascript: cadastrar();">
+        <label for="código">Código</label>
+        <input type="text" id="codigo">
+        <br>
+        <label for="nome">Nome</label>
+        <input type="text" id="nome">
+        <br>
+        <label for="capacidade">Capacidade</label>
+        <input type="text" id="capacidade">
+        <br>
+        <label for="exibicao">Tipo de exibição</label>
+        <input type="text" id="exibicao">
+        <br>
+        <label for="acessivel">Acessível</label>
+        <input type="text" id="acessivel">
+        <br>
+        <input type="submit" value = "Enviar">
+        <input type="reset" id="Reset" value="Resetar">
+        </form>
+        <button onclick="listartudo()">Listar tudo</button>
+        <br>
+        <fieldset>
+            <label for="pesquisar">Digite o código para ser pesquisado:</label>
+            <input type="text" id="pesquisar">
+            <button onclick="listarum()">Listar um aluno</button>
+        </fieldset>
+        <fieldset>
+        <label for="alterar1">Digite o código para alterar os elemento do objeto:</label>
+        <input type="text" name="" id="alterar1">
+        <br>
+        <label for="código1">Código</label>
+        <input type="text" id="codigo1">
+        <br>
+        <label for="nome1">Nome</label>
+        <input type="text" id="nome1">
+        <br>
+        <label for="capacidade1">Capacidade</label>
+        <input type="text" id="capacidade1">
+        <br>
+        <label for="exibicao1">Tipo de exibição</label>
+        <input type="text" id="exibicao1">
+        <br>
+        <label for="acessivel1">Acessível</label>
+        <input type="text" id="acessivel1">
+        <br>
+        <button onclick="alterar()">Alterar</button>
+        </fieldset>
+        <fieldset>
+            <label for="alterar2">Digite o código para excluir um elemento do conjunto:</label>
+            <input type="text" name="" id="alterar2">
+            <br>
+            <label for="excluir_elemento">Qual elemento você deseja excluir?</label>
+            <select name="" id="excluir_elemento">
+                <option value="nome">Nome</option>
+                <option value="capacidade">Capacidade</option>
+                <option value="exibir">Exibir</option>
+                <option value="acessivel">Acessível</option>
+            </select>
+            <button onclick="excluir()">Excluir elemento</button>
+        </fieldset>
+        <br>
+        <button id="mostrarstring">Mostrar string JSON</button>
+        <br>
+        <table  border="1" style="border:crimson;">
+            <tr>
+                <td>Código</td>
+                <td>Nome</td>
+                <td>Capacidade</td>
+                <td>Tipo de exibição</td>
+                <td>Acessível</td>
+            </tr>
+        </table>
+        <br>
+        <a href="principal.html">Voltar</a>
+        <br><br>
+        <p1 id="mostrar1"></p1>
+        <br>
+        <p2 id="mostrar2"></p2>
+        <br>
+        <p3 id="mostrarstring1"></p3>
+    </body>
+</html>

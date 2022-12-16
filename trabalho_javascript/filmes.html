@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        let vetor = [];
+        let i; 
+        function cadastrar()
+        {
+            let códigoValue = document.getElementById("codigo").value;
+            let nomeValue = document.getElementById("nome").value;
+            let anoValue = document.getElementById("lancamento").value;
+            let diretorValue = document.getElementById("diretor").value;
+            let atoresValue = document.getElementById("atores").value;
+
+            if(códigoValue == "" || nomeValue == "" || anoValue == "" || diretorValue == "" || atoresValue == "")
+                {
+                    alert("Preencha todos os campos");
+                }
+            else
+            {
+                let encontrado;
+                encontrado = 0;
+                for(i=0;i < vetor.length;i++)
+                {
+                    if(vetor[i].cod == códigoValue)
+                    {
+                        encontrado = 1;
+                    }
+                }
+                if(encontrado)
+                {
+                    alert("Esse código já está cadastrado, por favor insira outro!");
+                }
+                else
+                {
+                    $("table").append("<tr><td>"+códigoValue+"<td>"+nomeValue+"<td>"+anoValue+"<td>"+diretorValue+"<td>"+atoresValue+"<tr>");
+                    vetor.push({cod: códigoValue, nome: nomeValue, ano: anoValue, diretor: diretorValue, ator: atoresValue});
+                    alert("Cadastro feito com sucesso");
+                }
+                
+            }
+            
+            let stringVetor = JSON.stringify(vetor);
+            $(document).ready(function()
+                {
+                    $("#mostrarstring").click(function()
+                    {
+                        $("#mostrarstring1").html(stringVetor);
+                    });
+                });
+            localStorage.setItem("vetorfilmes", stringVetor);
+            console.log(vetor);
+        }
+        function listartodos()
+        {
+            let str1 = "";
+            for(i=0;i<vetor.length;i++)
+            {
+                str1 += ("<br>" + "Código:"+ vetor[i].cod + "<br>" + "Nome:" + vetor[i].nome + "<br>" + "Ano de lançamento:" + vetor[i].ano + "<br>" +"Diretor:" + vetor[i].diretor + "<br>" + "Ator:" + vetor[i].ator + "<br>");
+            }
+            document.getElementById("mostrar1").innerHTML = str1;
+        }
+        function listarum()
+        {
+            let encontrar;
+            encontrar = 0;
+            let pesquisarValue = document.getElementById("pesquisar").value;
+            let str2 = "";
+            for(i=0;i<vetor.length;i++)
+            {
+                if(pesquisarValue == vetor[i].cod)
+                {
+                    encontrar = 1;
+                    str2 += ("<br>" + "Código:"+ vetor[i].cod + "<br>" + "Nome:" + vetor[i].nome + "<br>" + "Ano de lançamento:" + vetor[i].ano + "<br>" +"Diretor:" + vetor[i].diretor + "<br>" + "Ator:" + vetor[i].ator + "<br>");
+                }
+            }
+            if(encontrar)
+            {
+                document.getElementById("mostrar2").innerHTML = str2;
+            }
+            else
+            {
+                alert("Esse código não foi encontrado!");
+            }
+            
+        }
+        function alterar()
+            {
+                let alterar = document.getElementById("alterar1").value;
+                let códigoValue1 = document.getElementById("codigo1").value;
+                let nomeValue1 = document.getElementById("nome1").value;
+                let anoValue1 = document.getElementById("lancamento1").value;
+                let diretorValue1 = document.getElementById("diretor1").value;
+                let atoresValue1 = document.getElementById("atores1").value;
+
+                for(i=0;i<vetor.length;i++)
+                {
+                    if(alterar == vetor[i].cod)
+                    {
+                        vetor[i].cod = códigoValue1;
+                        vetor[i].nome = nomeValue1;
+                        vetor[i].ano = anoValue1;
+                        vetor[i].diretor = diretorValue1;
+                        vetor[i].ator = atoresValue1;
+                        alert("O código foi alterado com sucesso");
+                    }
+                    else
+                    {
+                        alert("Esse código não foi encontrado");
+                    }
+                }
+            }
+            function excluir()
+            {
+                let alterar2 = document.getElementById("alterar2").value;
+                let select = document.getElementById("excluir_elemento").value;
+                for(i=0;i<vetor.length;i++)
+                {
+                    if(alterar2 == vetor[i].cod)
+                    {
+                        if(select == "nome")
+                        {
+                            vetor[i].nome = "";
+                            alert("O nome foi excluído com sucesso");
+                        }
+                        if(select == "ano")
+                        {
+                            vetor[i].ano = "";
+                            alert("O ano foi excluído com sucesso");
+                        }
+                        if(select == "diretor")
+                        {
+                            vetor[i].diretor = "";
+                            alert("O diretor foi excluído com sucesso");
+                        }
+                        if(select == "ator")
+                        {
+                            vetor[i].ator = "";
+                            alert("O ator foi excluído com sucesso");
+                        }  
+                    }
+                    else
+                    {
+                        alert("Esse código não foi encontrado");
+                    }
+                }
+            }
+    </script>
+</head>
+<body>
+    <fieldset>
+    <form action="javascript: cadastrar();">
+    <label for="codigo">Código</label>
+    <input type="text" id="codigo">
+    <br>
+    <label for="nome">Nome</label>
+    <input type="text" id="nome">
+    <br>
+    <label for="lancamento">Ano de Lançamento</label>
+    <input type="text" id="lancamento">
+    <br>
+    <label for="diretor">Diretor</label>
+    <input type="text" id="diretor">
+    <br>
+    <label for="atores">Atores</label>
+    <input type="text" name="" id="atores">
+    <br>
+    <input type="submit" value="Enviar">
+    <input type="reset" value="Reset">
+    </form>
+    </fieldset>
+    <button onclick="listartodos()">Listar tudo</button>
+    <br>
+    <fieldset>
+    <label for="pesquisar">Digite um código para ser pesquisado:</label>
+    <input type="text" id="pesquisar">
+    <button onclick="listarum()">Listar um</button>
+    </fieldset>
+    <fieldset>
+    <form action="javascript: alterar();">
+        <label for="alterar1">Digite o código para alterar os elemento do objeto:</label>
+        <input type="text" name="" id="alterar1">
+        <br>
+        <label for="codigo">Código</label>
+        <input type="text" id="codigo1">
+        <br>
+        <label for="nome">Nome</label>
+        <input type="text" id="nome1">
+        <br>
+        <label for="lancamento">Ano de Lançamento</label>
+        <input type="text" id="lancamento1">
+        <br>
+        <label for="diretor">Diretor</label>
+        <input type="text" id="diretor1">
+        <br>
+        <label for="atores">Atores</label>
+        <input type="text" id="atores1">
+        <br>
+        <input type="submit" id="alterar1">
+        </form>
+    </fieldset>
+    <fieldset>
+        <label for="alterar2">Digite o código para excluir um elemento do conjunto:</label>
+        <input type="text" name="" id="alterar2">
+        <br>
+        <label for="excluir_elemento">Qual elemento você deseja excluir?</label>
+        <select name="" id="excluir_elemento">
+            <option value="nome">Nome</option>
+            <option value="ano">Ano</option>
+            <option value="diretor">Diretor</option>
+            <option value="ator">Ator</option>
+        </select>
+        <button onclick="excluir()">Excluir elemento</button>
+    </fieldset>
+    <br>
+    <button id="mostrarstring">Mostrar string JSON</button>
+    <br>
+    <table  border="1" style="border:crimson;">
+        <tr>
+            <td>Código</td>
+            <td>Nome</td>
+            <td>Ano de lançamento</td>
+            <td>Diretor</td>
+            <td>Atores</td>
+        </tr>
+    </table>
+    <br>
+    <a href="principal.html">Voltar</a>
+    <br>
+    <br>
+    <p1 id="mostrar1"></p1>
+    <br>
+    <p2 id="mostrar2"></p2>
+    <br>
+    <p3 id="mostrarstring1"></p3>
+    
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let i;
+        let str_vetorsalas_armazenado = localStorage.getItem("vetorsalas");
+        let vetorsalas_recuperado = JSON.parse(str_vetorsalas_armazenado);
+        let str_vetorfilmes_armazenado = localStorage.getItem("vetorfilmes");
+        let vetorfilmes_recuperado = JSON.parse(str_vetorfilmes_armazenado);
+        let str_vetorsessoes_armazenado = localStorage.getItem("vetorsessoes");
+        let vetorsessoes_recuperado = JSON.parse(str_vetorsessoes_armazenado);
+        let str_vetor2sessoes_armazenado = localStorage.getItem("vetor2sessoes");
+        let vetorsessoes2_recuperado = JSON.parse(str_vetor2sessoes_armazenado);
+        function mostrar()
+        {
+            let exibicao = document.getElementById("exibicao").value;
+            let capacidade_valor = document.getElementById("capacidade").value;
+            let str = "";
+            for(i in vetorsalas_recuperado)
+            {
+                if(parseInt(vetorsalas_recuperado[i].capacidade) > parseInt(capacidade_valor) && vetorsalas_recuperado[i].exibir == exibicao)
+                {
+                    str += ("<br>" + "Código:"+ vetorsalas_recuperado[i].cod + "<br>" + "Nome:" + vetorsalas_recuperado[i].nome + "<br>" + "Capacidade:" + vetorsalas_recuperado[i].capacidade + "<br>" +"Exibir:" + vetorsalas_recuperado[i].exibir + "<br>" + "Acessível:" + vetorsalas_recuperado[i].acessivel + "<br>");
+                }
+            }
+            document.getElementById("mostrar").innerHTML = str;
+        }
+        function mostrar2()
+        {
+            let ano = document.getElementById("ano").value;
+            let ator = document.getElementById("ator").value;
+            let str1 = "";
+            for(i in vetorfilmes_recuperado)
+            {
+                if(parseInt(vetorfilmes_recuperado[i].ano) >= parseInt(ano) && vetorfilmes_recuperado[i].ator == ator)
+                {
+                    str1 += ("<br>" + "Código:"+ vetorfilmes_recuperado[i].cod + "<br>" + "Nome:" + vetorfilmes_recuperado[i].nome + "<br>" + "Ano de lançamento:" + vetorfilmes_recuperado[i].ano + "<br>" +"Diretor:" + vetorfilmes_recuperado[i].diretor + "<br>" + "Ator:" + vetorfilmes_recuperado[i].ator + "<br>");
+                }
+            }
+            document.getElementById("mostrar1").innerHTML = str1;
+        }
+            function mostrar3()
+            {
+                let inicial = new Date(document.getElementById("inicial").value);
+                let final = new Date(document.getElementById("final").value);
+                let str2 = "";
+                for(x in vetorsessoes2_recuperado)
+                {
+                    if(new Date(vetorsessoes2_recuperado[x].data) >= inicial && new Date(vetorsessoes2_recuperado[x].data) <= final)
+                    {
+                        str2 += ("<br>" + "Código do filme:"+ vetorsessoes2_recuperado[x].cod_filme + "<br>" +"Código da sala:"+ vetorsessoes2_recuperado[x].cod_sala + "<br>"+ "Nome da sala:" + vetorsessoes2_recuperado[x].nome_sala + "<br>" + "Nome do filme:" + vetorsessoes2_recuperado[x].cod_sala + "<br>" + "Atores:" + vetorsessoes2_recuperado[x].atores + "<br>" +"Data:" + vetorsessoes2_recuperado[x].data + "<br>" + "Horário:" + vetorsessoes2_recuperado[x].horario +"<br>"+ "Preço:"+ vetorsessoes2_recuperado[x].preco+"<br>");
+                    }
+                }
+                document.getElementById("mostrar2").innerHTML = str2;
+
+            }
+
+
+    </script>
+    <label for="exibicao">Digite o tipo de exibição que deseja mostrar:</label>
+    <input type="text" id="exibicao">
+    <br><br>
+    <label for="capacidade">Digite a capacidade que deseja mostrar:</label>
+    <input type="text" id="capacidade">
+    <br><br>
+    <button onclick="mostrar()">Mostrar Informações</button>
+    <br>
+    <label for="ano">Digite o ano que você deseja mostrar:</label>
+    <input type="text" id="ano">
+    <br>
+    <label for="ator">Digite o ator que você deseja mostrar:</label>
+    <input type="text" id="ator">
+    <br>
+    <button onclick="mostrar2()">Mostrar as Informações</button>
+    <br><br>
+    <label for="inicial">Data inicial</label>
+    <input type="date" id="inicial">
+    <br>
+    <label for="final">Data final</label>
+    <input type="date" id="final">
+    <br>
+    <button onclick="mostrar3()">Mostrar Informações</button>
+    <p1 id="mostrar"></p1>
+    <br>
+    <p2 id="mostrar1"></p2>
+    <br>
+    <br>
+    <p3 id="mostrar2"></p3>
+    <a href="principal.html">Voltar</a>
+</body>
+</html>
